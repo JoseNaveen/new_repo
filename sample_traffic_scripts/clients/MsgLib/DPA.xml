@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<command name="DPA" signature="SeaFood_1.115.2  14:23:26  2016/03/31">
+  <avp name="Origin-Host" value="NGNPS-CxDx-LIR-CLI001.east.com"/>
+  <avp name="Origin-Realm" value="east.com"/>
+  <avp name="Result-Code" value="2001"/>
+</command>

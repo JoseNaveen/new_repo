@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<scenario xmlns:xi="http://www.w3.org/2003/XInclude">
+ <counter>
+  <counterdef name="HbH-counter" init="1000"> </counterdef>
+  <counterdef name="EtE-counter" init="2000"> </counterdef>
+  <counterdef name="session-counter" init="0"> </counterdef>
+  <counterdef name="olr-sequence" init="100"> </counterdef>
+ </counter>
+<default behaviour="ignore">
+  <receive channel="channel-1" label="command-1">
+    <command name="CER">
+    </command>
+    <action>
+       <store name="HbH"    entity="HbH-id"/>
+       <store name="E2E"    entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+       <restore name="HbH"    entity="HbH-id"/>
+       <restore name="E2E"    entity="EtE-id"/> 
+    </action>
+    <command name="CEA">
+      <avp name="Result-Code" value="2001"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <!--avp name="Host-IP-Address" value="0x00022606b4000605b80f0210e0fffe57b47e"/--> <!-- 2606:b400:605:b80f:210:e0ff:fe57:b47e -->
+      <!--avp name="Host-IP-Address" value="0x0002fd0ddebad97c0f7d0210e0fffe57b47f"/--> <!-- fd0d:deba:d97c:f7d:210:e0ff:fe57:b47f -->
+      <!--avp name="Host-IP-Address" value="0x0002fd0ddebad97c0f7c0a0027fffe92ab95"/-->
+      <!--avp name="Host-IP-Address" value="0x00010AF06904"/-->
+      <avp name="Host-IP-Address" value="0x000114141405"/>      
+      <avp name="Vendor-Id" value="11"/>
+      <avp name="Product-Name" value="Seagull S6,Cx interface Simulator"/>
+      <avp name="Auth-Application-Id" value="16777251"/>
+      <avp name="Auth-Application-Id" value="16777216"/>
+      <avp name="Auth-Application-Id" value="16777290"/>
+      <avp name="Acct-Application-Id" value="0"/>
+      <avp name="Firmware-Revision" value="1"/>
+    </command>
+  </send>
+</default>
+<!-- Dummy Traffic Section -->
+<traffic>
+  <receive channel="channel-1">
+    <command name="DUMMY">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+    </action>
+  </receive>
+</traffic>
+<!-- Default Section for handling a RTR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="RTR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="RTR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="RTA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a DSR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="DSR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="DSR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="DSA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a RSR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="RSR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="RSR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="RSA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a NOR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="NOR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="NOR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="NOA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a IDR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="IDR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="IDR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="IDA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a CLR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="CLR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="CLR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="CLA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>	       
+       
+<!-- Default Section for handling a UDR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="UDR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="UDR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="UDA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a PNR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="PNR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="PNR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="PNA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a SNR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="SNR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="SNR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="SNA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a ULR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="ULR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>                
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="ULR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <!-- SEND ULA -->
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="ULA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a MAR-Zh message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="MAR-Zh">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="MAR-Zh-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <!-- SEND MAA-Zh -->
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="MAA-Zh">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a UAR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="UAR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="UAR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+      
+    </action>
+  </receive>
+ </one-of>
+ <!-- SEND UAA -->
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="UAA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a PUR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="PUR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="PUR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+    </action>
+  </receive>
+ </one-of>
+ <!-- SEND PUA -->
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="PUA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a SAR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="SAR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="SAR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="SAA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a AIR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="AIR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="AIR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="AIA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<!-- Default Section for handling a LIR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="LIR">
+	<!--avp name="Session-Priority" value="0"/-->
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+      <!--store name="DRMP" entity="DRMP"/-->
+      <!--check-presence name="Software-Version" behaviour="branch_if_present" look_ahead="3"/-->
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="LIR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      <!--restore name="DRMP" entity="DRMP"/-->
+      
+    </action>
+    <command name="LIA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Auth-Application-Id" value="16777216"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <avp name="OC-Supported-Features">
+         <avp name="OC-Feature-Vector" value="1"> </avp>
+      </avp>
+      <avp name="DRMP" value="99"/>
+      <!--xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/-->
+    </command>
+    <action>
+      <!--set-value var="peg" method="pygull" format="fun=NGN_PS_SERVER.End_Default"/-->
+    </action>
+ </send>
+
+ <!--send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      <inc-counter name="olr-sequence"/>
+      <set-value format="$(olr-sequence)" name="OC-Sequence-Number"/>
+    </action>
+    <command name="LIA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <avp name="OC-Supported-Features">
+           <avp name="OC-Feature-Vector" value="1"> </avp>
+      </avp>
+
+      <avp name="OC-Overload-Report">
+          <avp name="OC-Sequence-Number" value="11"> </avp>
+          <avp name="OC-Report-Type" value="0"> </avp>
+          <avp name="OC-Validity-Duration" value="300"> </avp>
+          <avp name="OC-Reduction-Percentage" value="10"> </avp>
+      </avp>
+
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+ </send-->
+</default>
+<!-- Default Section for handling a MAR message -->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="MAR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="MAR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="MAA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/>
+    </command>
+   </send>
+</default>
+<default behaviour="ignore">
+  <receive channel="channel-1">
+    <command name="DWR">
+    </command>
+    <action>
+      <store name="dwrHopByHop"        entity="HbH-id"/>
+      <store name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+      <restore   name="dwrHopByHop"        entity="HbH-id"/>
+      <restore   name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+    <command name="DWA">
+      <avp name="Origin-Host"  value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+  </send>
+</default>
+<default behaviour="ignore">
+  <receive channel="channel-1">
+    <command name="DPR">
+    </command>
+    <action>
+      <store name="dwrHopByHop"        entity="HbH-id"/>
+      <store name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+      <restore   name="dwrHopByHop"        entity="HbH-id"/>
+      <restore   name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+    <command name="DPA">
+      <avp name="Origin-Host"  value="server.oracle.com"/>
+      <avp name="Origin-Realm" value="oracle.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+  </send>
+</default>
+</scenario>

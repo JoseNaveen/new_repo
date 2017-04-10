@@ -1,0 +1,154 @@
+{
+    "title":"Example Schema",
+    "id": "http://dsr.cgbu.oracle.com/schemas/diameter/localnode/localnode.json",
+    "properties": {
+        "certName": {
+            "description": "A valid security certificate name.",
+            "maxLength": 255, 
+            "type": "string"
+        }, 
+        "certType": {
+            "description": "The type of the security certificate identified by certName. DSR only supports certificate type Tls for assignment to a Local Node.", 
+            "enum": [
+                "Tls"
+            ], 
+            "type": "string"
+        }, 
+        "certVerifyMode": {
+            "description": "The Certificate Verification Mode used when either a DTLS/SCTP or a TLS/TCP port is configured for this Local Node.", 
+            "enum": [
+                "SslVerifyNone", 
+                "SslVerifyPeer", 
+                "SslVerifyPeerFailIfNoPeerCert", 
+                "SslVerifyPeerVerifyClientOnce"
+            ], 
+            "type": "string"
+        }, 
+        "cexCfgSetName": {
+            "description": "The CEX Configuration Set (/diameter/cexconfigurationsets) assigned to a Local Node supplies capabilities exchange parameters, which get applied to any Connection (/diameter/connections) that doesn't have its own CEX Configuration Set explicitly configured.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "configurationLevel": {
+            "description": "The configuration level of the database when this instance is inserted or updated. configurationLevel is read-only.", 
+            "format": "int64", 
+            "readOnly": true,
+            "type": "string"
+        }, 
+        "connCfgSetName": {
+            "description": "The Connection Configuration Set (/diameter/connectionconfigurationsets) assigned to a Local Node supplies default values for a variety of transport connection parameters.  The only time a Local Node's Connection Configuration Set is used is when a responder-only Connection (/diameter/connections) is initially set up, awaiting establishment from a Peer Node (/diameter/peernodes).  Once the responder-only Connection is established, and in all other Connection configuration scenarios, the Connection's own Connection Configuration Set supplies the transport connection parameters.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "dtlsPort": {
+            "description": "DTLS/SCTP Listen Port number of this Local Node. Omitting this property indicates the Local Node does not listen for DTLS/SCTP Connections from Peer Nodes (/diameter/peernodes). Typical value is 5658.", 
+            "maximum": 16383, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "endClientPort": {
+            "description": "The highest UDP port number that can be used by the Local Node to send RADIUS request messages to a RADIUS server. Typical value is 2499.", 
+            "maximum": 49151, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "fqdn": {
+            "description": "Fully Qualified Domain Name of this Peer Node. fqdn is a case-insensitive string consisting of a list of labels separated by dots, where a label may contain letters, digits, dashes ('-') and underscore ('_'). A label must start with a letter, digit or underscore and must end with a letter or digit. Underscores may be used only as the first character. A label must be at most 63 characters long and an FQDN must be at most 255 characters long.", 
+            "maxLength": 255, 
+            "pattern": "^(?!\\-)(?:[a-zA-Z0-9\\-\\_]{0,63}[a-zA-Z0-9]\\.){1,64}(?!0-9+)[a-zA-Z0-9]{1,64}$", 
+            "type": "string"
+        }, 
+        "ip": {
+            "description": "The IP address list for this Local Node. The IP addresses configured for a Local Node may include fixed IP addresses and/or IPFE Target Set Addresses.", 
+            "items": {
+                "properties": {
+                    "ipAddr": {
+                        "description": "A single IP address configured for this Local Node.", 
+                        "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+                        "type": "string"
+                    }, 
+                    "ipType": {
+                        "description": "Each IP address is of type LocalIp or IpfeTsa. A Local IP is a fixed IP address assigned to a specific MP server within the DSR.  An IPFE Target Set Address (TSA) is an IP address associated with a group of MP servers, which together are known as a Target Set.", 
+                        "enum": [
+                            "LocalIp", 
+                            "IpfeTsa"
+                        ], 
+                        "type": "string"
+                    }
+                }, 
+                "required": [
+                    "ipAddr",
+                    "ipType"
+                ], 
+                "type": "object"
+            }, 
+            "maxItems": 128,
+            "minItems": 1, 
+            "type": "array"
+        }, 
+        "name": {
+            "description": "Name for this Local Node, which must be unique within the DSR site. A name is required, and cannot be changed after the Local Node is initially configured. Valid names are strings between one and 32 characters, inclusive. Valid characters are alphanumeric and underscore. The name must contain at least one alpha and must not start with a digit.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "radiusClientPortEnabled": {
+            "description": "If set to true, this Local Node can send RADIUS request messages to a Peer Node (/diameter/peernodes), configured in the role of RADIUS server, using one of the UDP ports within the range defined by startClientPort and endClientPort.", 
+            "type": "boolean"
+        }, 
+        "realm": {
+            "description": "Realm of this Local Node. Realm is a case-insensitive string consisting of a list of labels separated by dots, where a label may contain letters, digits, dashes ('-') and underscore ('_'). A label must start with a letter, digit or underscore and must end with a letter or digit. Underscores may be used only as the first character. A label must be at most 63 characters long and a Realm must be at most 255 characters long.", 
+            "maxLength": 255, 
+            "pattern": "^(?!\\-)(?:[a-zA-Z0-9\\-\\_]{0,63}[a-zA-Z0-9]\\.){1,64}(?!0-9+)[a-zA-Z0-9]{1,64}$", 
+            "type": "string"
+        }, 
+        "sctpPort": {
+            "description": "SCTP Listen Port number of this Local Node. Omitting this property indicates the Local Node does not listen for SCTP Connections from Peer Nodes (/diameter/peernodes). Typical value is 3868.", 
+            "maximum": 16383, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "serverPort": {
+            "description": "UDP port numbers used by RADIUS clients when sending RADIUS messages to this Local Node. Between zero and 10 (inclusive) UDP port numbers can be defined for a Local Node. If no UDP port numbers are supplied, this Local Node does not receive requests from RADIUS clients.", 
+            "items": {
+                "maximum": 49151, 
+                "minimum": 1024, 
+                "type": "integer"
+            }, 
+            "maxItems": 10,
+            "minItems": 0,
+            "type": "array"
+        }, 
+        "startClientPort": {
+            "description": "The lowest UDP port number that can be used by the Local Node to send RADIUS request messages to a RADIUS server. Typical value is 2000.", 
+            "maximum": 49151, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "tcpPort": {
+            "description": "TCP Listen Port number of this Local Node. Omitting this property indicates the Local Node does not listen for TCP Connections from Peer Nodes (/diameter/peernodes). Typical value is 3868.", 
+            "maximum": 16383, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "tlsPort": {
+            "description": "TLS/TCP Listen Port number of this Local Node. Omitting this property indicates the Local Node does not listen for TLS/TCP Connections from Peer Nodes (/diameter/peernodes). Typical value is 5658.", 
+            "maximum": 16383, 
+            "minimum": 1024, 
+            "type": "integer"
+        }
+    }, 
+    "required": [
+        "certVerifyMode",
+        "cexCfgSetName",
+        "connCfgSetName", 
+        "fqdn", 
+        "ip", 
+        "name", 
+        "radiusClientPortEnabled",
+        "realm" 
+    ], 
+    "type": "object"
+}

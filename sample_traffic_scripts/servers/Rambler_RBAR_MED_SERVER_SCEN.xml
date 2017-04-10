@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<scenario xmlns:xi="http://www.w3.org/2003/XInclude">
+ <counter>
+  <counterdef name="HbH-counter" init="1000"> </counterdef>
+  <counterdef name="EtE-counter" init="2000"> </counterdef>
+  <counterdef name="session-counter" init="0"> </counterdef>
+  <counterdef name="olr-sequence" init="100"> </counterdef>
+ </counter>
+<default behaviour="ignore">
+  <receive channel="channel-1" label="command-1">
+    <command name="CER">
+    </command>
+    <action>
+       <store name="HbH"    entity="HbH-id"/>
+       <store name="E2E"    entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+       <restore name="HbH"    entity="HbH-id"/>
+       <restore name="E2E"    entity="EtE-id"/> 
+    </action>
+    <command name="CEA">
+      <avp name="Result-Code" value="2001"/>
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Host-IP-Address" value="0x00010AF0AC13"/>
+      <avp name="Vendor-Id" value="11"/>
+      <avp name="Product-Name" value="Seagull S6,Cx interface Simulator"/>
+      <avp name="Auth-Application-Id" value="16777217"/>
+      <avp name="Auth-Application-Id" value="16777216"/>
+      <avp name="Auth-Application-Id" value="3"/>
+      <avp name="Firmware-Revision" value="1"/>
+    </command>
+  </send>
+</default>
+<!-- Dummy Traffic Section -->
+<traffic>
+  <receive channel="channel-1">
+    <command name="DUMMY">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+    </action>
+  </receive>
+</traffic>
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="UDR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="UDR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="UDA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+    </command>
+   </send>
+</default>
+<!-- ACR Section-->
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="ACR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="ACR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+
+    </action>
+    <command name="ACA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+    </command>
+   </send>
+</default>
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="ULR">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>                
+           
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="ULR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <!-- SEND ULA -->
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="ULA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+   </send>
+</default>
+<default>
+ <one-of>
+  <receive channel="channel-1">
+    <command name="LIR">
+	<avp name="Session-Priority" value="0"/>
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+      <check-presence name="Software-Version" behaviour="branch_if_present" look_ahead="3"/>
+    </action>
+  </receive>
+  <receive channel="channel-1">
+    <command name="LIR-REROUTE">
+    </command>
+    <action>
+      <store name="HbH" entity="HbH-id"/>
+      <store name="E2E" entity="EtE-id"/>
+      <store name="sid" entity="Session-Id"/>
+           
+    </action>
+  </receive>
+ </one-of>
+ <send channel="channel-1">
+    <action>
+      <restore name="HbH" entity="HbH-id"/>
+      <restore name="E2E" entity="EtE-id"/>
+      <restore name="sid" entity="Session-Id"/>
+      
+    </action>
+    <command name="LIA">
+      <avp name="Session-Id" value="Value_replaced"/>
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Auth-Session-State" value="1"/>
+      <avp name="Auth-Application-Id" value="16777216"/>
+      <avp name="Experimental-Result">
+         <avp name="Experimental-Result-Code" value="2001"/>
+         <avp name="Vendor-Id" value="11"/>
+      </avp>
+      <avp name="Result-Code" value="2001"/>      
+      <avp name="Proxy-Info">
+         <avp name="Proxy-Host" value="Value-replaced"/>
+         <avp name="Proxy-State" value="state-of-being"/>
+      </avp>
+      <avp name="OC-Supported-Features">
+         <avp name="OC-Feature-Vector" value="1"> </avp>
+      </avp>
+      <!--avp name="DRMP" value="4"/-->
+      <!--xi:include href="MsgLib/UserData/HSS1-Data-1.xml"/-->
+    </command>
+    <action>
+    </action>
+ </send>
+</default>
+<default behaviour="ignore">
+  <receive channel="channel-1">
+    <command name="DWR">
+    </command>
+    <action>
+      <store name="dwrHopByHop"        entity="HbH-id"/>
+      <store name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+      <restore   name="dwrHopByHop"        entity="HbH-id"/>
+      <restore   name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+    <command name="DWA">
+      <avp name="Origin-Host"  value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+  </send>
+</default>
+<default behaviour="ignore">
+  <receive channel="channel-1">
+    <command name="DPR">
+    </command>
+    <action>
+      <store name="dwrHopByHop"        entity="HbH-id"/>
+      <store name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+  </receive>
+  <send channel="channel-1">
+    <action>
+      <restore   name="dwrHopByHop"        entity="HbH-id"/>
+      <restore   name="dwrEndToEnd"        entity="EtE-id"/> 
+    </action>
+    <command name="DPA">
+      <avp name="Origin-Host" value="rbarhss.meat.com"/>
+      <avp name="Origin-Realm" value="meat.com"/>
+      <avp name="Result-Code" value="2001"/>
+    </command>
+  </send>
+</default>
+</scenario>

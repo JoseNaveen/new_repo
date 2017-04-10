@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<configuration name="Simple IP Server Conf" signature="SeaFood_1.115.2  14:23:24  2016/03/31">
+<define entity="transport" name="trans-1" file="libtrans_ip.so" create_function="create_cipio_instance" delete_function="delete_cipio_instance" init-args="type=tcp;decode-buf-len=9216;encode-buf-len=9216"/>
+  <!--define entity="channel" name="channel-1" protocol="SeaFood-Diameter" transport="trans-1" open-args="mode=client;source=[2606:b400:605:b80f:210:e0ff:fe57:b47e]:0;dest=10.240.95.226:3869;buffer=8000000;nagle=on"/-->
+ <define entity="channel" name="channel-1" protocol="SeaFood-Diameter" transport="trans-1" open-args="mode=client;source=20.20.20.5:0;dest=20.20.20.2:3868;buffer=8000000;nagle=on" reconnect="yes"/>
+  <define entity="traffic-param" name="call-rate" value="10"/>
+  <define entity="traffic-param" name="display-period" value="1"/>
+  <define entity="traffic-param" name="display-protocol-stat" value="true"/>
+  <define entity="traffic-param" name="display-scenario-stat" value="true"/>
+  <define entity="traffic-param" name="files-no-timestamp" value="true"/>
+  <!--define entity="traffic-param" name="log-protocol-stat-file" value="/var/log/DBAACR_MME_CLI_01-20-protocol-stat1.csv"/-->
+  <define entity="traffic-param" name="log-protocol-stat-name" value="all"/>
+  <define entity="traffic-param" name="log-protocol-stat-period" value="300"/>
+  <!--define entity="traffic-param" name="log-stat-file" value="/var/log/DBAACR_MME_CLI_01-20-stat1.csv"/-->
+  <define entity="traffic-param" name="log-stat-period" value="1"/>
+  <define entity="traffic-param" name="max-receive" value="2000000"/>
+  <define entity="traffic-param" name="max-send" value="2000000"/>
+  <define entity="traffic-param" name="max-simultaneous-calls" value="20000"/>
+  <define entity="traffic-param" name="msg-check-behaviour" value="W"/>
+  <define entity="traffic-param" name="msg-check-level" value="P"/>
+  <define entity="traffic-param" name="response-time-repartition" value="50,100,150,200,500,750,1000,1500,2000,3000,4000,5000"/>
+  <define entity="traffic-param" name="select-timeout-ms" value="150"/>
+</configuration>

@@ -1,0 +1,148 @@
+<?xml version="1.0" ?>
+<scenario signature="SeaFood_1.115.6  14:59:22  2016/03/01" xmlns:ns0="http://www.w3.org/2003/XInclude">
+  <counter>
+    <counterdef init="1000" name="HbH-counter"/>
+    <counterdef init="2000" name="EtE-counter"/>
+    <counterdef init="0" name="session-counter"/>
+  </counter>
+  <init>
+    <wait-ms value="200"/>
+  </init>
+  <default>
+    <receive channel="channel-1">
+      <connect/>
+    </receive>
+    <send channel="channel-1">
+      <action>
+        <inc-counter name="HbH-counter"/>
+        <inc-counter name="EtE-counter"/>
+        <set-value format="$(HbH-counter)" name="HbH-id"/>
+        <set-value format="$(EtE-counter)" name="EtE-id"/>
+        <set-value format="scscf.ims.oracle.com" name="Origin-Host"/>
+      </action>
+      <command name="CER">
+        <avp name="Origin-Host" value="value_is_replaced"/>
+        <avp name="Origin-Realm" value="oracle.com"/>
+        <!--avp name="Host-IP-Address" value="0x00022606b4000605b80f0210e0fffe57b47e"/-->
+        <!--avp name="Host-IP-Address" value="0x0002fd0ddebad97c0f7c0a0027fffe92ab95"/-->
+	<avp name="Host-IP-Address" value="0x00010AF06904"/>
+        <avp name="Vendor-Id" value="11"/>
+        <avp name="Product-Name" value="Seagull Cx interface Simulator"/>
+        <avp name="Origin-State-Id" value="10"/>
+        <avp name="Supported-Vendor-Id" value="10415"/>
+        <avp name="Auth-Application-Id" value="16777216"/>
+        <avp name="Auth-Application-Id" value="16777290"/>
+        <avp name="Acct-Application-Id" value="0"/>
+        <avp name="Vendor-Specific-Application-Id">
+          <avp name="Vendor-Id" value="11"/>
+          <avp name="Auth-Application-Id" value="16777216"/>
+        </avp>
+        <avp name="Firmware-Revision" value="1"/>
+      </command>
+    </send>
+    <receive channel="channel-1">
+      <command name="CEA">
+        <avp name="Result-Code" value="2001"/>
+      </command>
+      <action>
+        <check-value behaviour="error" name="Result-Code"/>
+      </action>
+    </receive>
+  </default>
+  <traffic>
+    <send channel="channel-1">
+      <action>
+        <inc-counter name="HbH-counter"/>
+        <inc-counter name="EtE-counter"/>
+        <set-value format="$(HbH-counter)" name="HbH-id"/>
+        <set-value format="$(EtE-counter)" name="EtE-id"/>
+        <inc-counter name="session-counter"/>
+        <set-value format="scscf.ims.oracle.com;s001;$(session-counter)" name="Session-Id"/>
+        <set-value format="scscf.ims.oracle.com" name="Origin-Host"/>
+	<set-value name="DRMP" method="pygull" format="fun=DRMP.gen_DRMP"/>
+      </action>
+      <command name="LIR" signature="SeaFood_1.115.6  14:59:24  2016/03/01">
+        <avp name="Session-Id" value="value_is_replaced"/>
+        <avp name="Origin-Host" value="value_is_replaced"/>
+        <!--avp name="Vendor-Specific-Application-Id">
+          <avp name="Vendor-Id" value="111111"/>
+          <avp name="Auth-Application-Id" value="16777216"/>
+          <avp name="Acct-Application-Id" value="0"/>
+        </avp-->
+        <avp name="Auth-Session-State" value="1"/>
+        <avp name="Origin-Realm" value="oracle.com"/>
+        <avp name="Destination-Realm" value="south.com"/>
+	<avp name="Destination-Host" value="dummypeerhss.com"/>
+        <avp name="User-Identity">
+          <avp name="Public-Identity" value="sip:191938813601234@imsi.com"/>
+        </avp>
+        <!--avp name="Session-Priority" value="0"/-->
+	<avp name="DRMP" value="0"/>
+      </command>
+      <action>
+        <start-timer/>
+      </action>
+    </send>
+	<wait-ms value="4100"/>
+    <default behaviour="call">
+      <receive channel="channel-1">
+        <action>
+          <stop-timer/>
+        </action>
+        <command name="LIA-ERROR">
+          <avp name="Result-Code" value="3004"/>
+        </command>
+        <action>
+          <check-value behaviour="error" name="Result-Code"/>
+        </action>
+      </receive>
+    </default>
+    <default behaviour="call">
+      <receive channel="channel-1">
+        <action>
+          <stop-timer/>
+        </action>
+        <command name="LIA">
+          <avp name="Result-Code" value="2001"/>
+        </command>
+        <action>
+          <check-value behaviour="error" name="Result-Code"/>
+        </action>
+      </receive>
+    </default>
+  </traffic>
+  <default>
+    <receive channel="channel-1">
+      <command name="DWR"/>
+      <action>
+        <store entity="HbH-id" name="dwrHopByHop"/>
+        <store entity="EtE-id" name="dwrEndToEnd"/>
+      </action>
+    </receive>
+    <send channel="channel-1">
+      <action>
+        <restore entity="HbH-id" name="dwrHopByHop"/>
+        <restore entity="EtE-id" name="dwrEndToEnd"/>
+        <set-value format="scscf.ims.oracle.com" name="Origin-Host"/>
+      </action>
+      <ns0:include href="MsgLib/DWA.xml"/>
+    </send>
+  </default>
+  <default>
+    <receive channel="channel-1">
+      <command name="DPR"/>
+      <action>
+        <store entity="HbH-id" name="dwrHopByHop"/>
+        <store entity="EtE-id" name="dwrEndToEnd"/>
+      </action>
+    </receive>
+    <send channel="channel-1">
+      <action>
+        <restore entity="HbH-id" name="dwrHopByHop"/>
+        <restore entity="EtE-id" name="dwrEndToEnd"/>
+        <set-value format="scscf.ims.oracle.com" name="Origin-Host"/>
+      </action>
+      <ns0:include href="MsgLib/DPA.xml"/>
+    </send>
+  </default>
+</scenario>

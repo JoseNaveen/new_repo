@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<command name="LIR" signature="SeaFood_1.115.2  14:23:26  2016/03/31">
+  <avp name="Session-Id" value="value_is_replaced"/>
+  <avp name="Vendor-Specific-Application-Id">
+    <avp name="Vendor-Id" value="111111"/>
+    <avp name="Auth-Application-Id" value="16777216"/>
+    <avp name="Acct-Application-Id" value="0"/>
+  </avp>
+  <avp name="Auth-Session-State" value="1"/>
+  <avp name="Origin-Realm" value="east.com"/>
+  <avp name="Origin-Host" value="NGNPS-CxDx-LIR-CLI001.east.com"/>
+  <avp name="Destination-Realm" value="west.com"/>
+  <avp name="User-Identity">
+    <avp name="Public-Identity" value="sip:191938813601234@imsi.com"/>
+    <!--This value can be anything between 0 and 4, with 0 being the highest priority -->
+  </avp>
+  <!-- NGN-PS AVP -->
+  <avp name="Session-Priority" value="0"/>
+</command>

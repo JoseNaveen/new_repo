@@ -1,0 +1,63 @@
+{
+    "title": "Example Schema",
+    "id": "http://dsr.cgbu.oracle.com/schemas/diameter/capacityconfigurationset/capacityconfigurationset.json",
+    "properties": {
+        "configurationLevel": {
+            "description": "The configuration level of the database when this instance is inserted or updated. configurationLevel is read-only.", 
+            "format": "int64", 
+            "readOnly": true,
+            "type": "string"
+        },
+        "convergenceTime": {
+            "description": "The time, in milliseconds, it takes to converge on a per second rate. If the convergence time is less than 1000 msec, the rate is extrapolated. If the convergence time is greater than 1000 msec, the rate is averaged. Typical value is 1000.",
+            "enum": [250, 500, 1000, 2000, 4000],
+            "type": "integer"
+        },
+        "ingressMpsMajorAlarmThreshold": {
+            "description": "The percentage of the Maximum Ingress MPS at which a major alarm is raised for connections using the Capacity Configuration Set. Once an alarm is raised, it is not cleared until the ingress MPS falls 5% or more below the ingress Capacity Major Alarm Threshold. The Major Alarm Threshold must be greater than the Minor Alarm Threshold. Typical value is 80.",
+            "maximum": 100,
+            "minimum": 11,
+            "type": "integer"
+        },
+        "ingressMpsMinorAlarmThreshold": {
+            "description": "The percentage of the Maximum Ingress MPS at which a minor alarm is raised for connections using the Capacity Configuration Set. Once an alarm is raised, it is not cleared until the ingress MPS falls 5% or more below the ingress Capacity Minor Alarm Threshold. The Minor Alarm Threshold must be less than the Major Alarm Threshold. Typical value is 50.",
+            "maximum": 99,
+            "minimum": 10,
+            "type": "integer"
+        }, 
+        "maxIngressMps": {
+            "description": "The maximum rate ingress messages per second that a Diameter Connection using this Capacity Configuration Set is allowed to process. The maximum ingress MPS must be greater than or equal to the reserved ingress MPS. Any difference between the maximum ingress MPS and the reserved ingress MPS represents MP server resources that are shared among Connections using this Capacity Configuration Set. Typical value is 10000.",
+            "maximum": 10000,
+            "minimum": 10,
+            "type": "integer"
+        }, 
+        "name": {
+            "description": "Name for the Capacity Configuration Set, which must be unique within the DSR site. Valid names are strings between one and 32 characters, inclusive. Valid characters are alphanumeric and underscore. The name must contain at least one alpha and must not start with a digit. This value is required for all Capacity Configuration Sets.",
+            "maxLength": 32,
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$",
+            "type": "string"
+        }, 
+        "reservedIngressMpsAbatementTime": {
+            "description": "The time, in milliseconds, a Connection's ingress message rate must remain 5% below an alarm onset threshold before clearing. Typical value is 2000.",
+            "maximum": 5000,
+            "minimum": 1000,
+            "type": "integer"
+        }, 
+        "reservedIngressMps": {
+            "description": "The capacity, in messages per second, explicitly reserved for a Connection (/diameter/connections) that is assigned this Capacity Configuration Set. Typical value is 0.",
+            "maximum": 10000,
+            "minimum": 0,
+            "type": "integer"
+        }
+    }, 
+    "required": [
+        "convergenceTime",
+        "ingressMpsMajorAlarmThreshold",
+        "ingressMpsMinorAlarmThreshold",
+        "maxIngressMps",
+        "name",
+        "reservedIngressMpsAbatementTime",
+        "reservedIngressMps"
+    ], 
+    "type": "object"
+}

@@ -1,0 +1,209 @@
+{
+    "title":"Example Schema",
+    "id": "http://dsr.cgbu.oracle.com/schemas/diameter/peernode/peernode.json",
+    "properties": {
+        "aaaProtocol": {
+            "description": "The AAA protocol for this Peer Node, which defines the Peer Node as either Diameter or Radius. This value is required for all Peer Nodes, and cannot be changed after the Peer Node is initially configured.", 
+            "enum": [
+                "Diameter", 
+                "Radius"
+            ], 
+            "type": "string"
+        }, 
+        "altRouteName": {
+            "description": "Route List (/diameter/routelists) to use for routing messages if implicit routing was used to route to this Peer Node and was unsuccessful.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "altRtOnAnswerResultCode": {
+            "description": "When a Reroute on Answer result code is received, this property defines whether alternate routing is attempted on any alternate Connections (/diameter/connections) to this Peer Node before selecting the next eligible Peer Node within a Peer Route Group (/diameter/peerroutegroups). If this property is set to DifferentPeer, no attempt is made to try alternate Connections to this Peer Node; the next eligible Peer Node within a Peer Route Group is instead attempted. Diameter Peer Nodes only.",
+            "enum": [
+                "DifferentPeer", 
+                "SamePeer"
+            ], 
+            "type": "string"
+        }, 
+        "altRtOnAnswerTimeout": {
+            "description": "When an answer timeout occurs, this property defines whether alternate routing is attempted on the same Connection (/diameter/connections); on an alternate Connection to the same Peer Node; or whether the next eligible Peer Node within a Peer Route Group (/diameter/peerroutegroups) is selected.  Diameter Peer Nodes only.", 
+            "enum": [
+                "DifferentPeer", 
+                "SamePeer", 
+                "SameConnection"
+            ], 
+            "type": "string"
+        }, 
+        "altRtOnConnFailure": {
+            "description": "When a Connection (/diameter/connections) failure occurs, if this property is set to SamePeer, routing is attempted on any alternate Connections to this Peer Node before selecting the next eligible Peer Node within a Peer Route Group (/diameter/peerroutegroups). If this property is set to DifferentPeer, no attempt is made to try alternate Connections to this Peer Node; the next eligible Peer Node within a Peer Route Group is instead attempted. Diameter Peer Nodes only.", 
+            "enum": [
+                "DifferentPeer", 
+                "SamePeer"
+            ], 
+            "type": "string"
+        }, 
+        "appRouteTableName": {
+            "description": "Name of the Application Route Table (/diameter/applicationroutetables) associated with this Peer Node.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "avpRemovalListName": {
+            "description": "Name of the AVP Removal List (/diameter/avpremovallists) associated with this Peer Node. Diameter Peer Nodes only.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "configurationLevel": {
+            "description": "The configuration level of the database when this instance is inserted or updated. configurationLevel is read-only.", 
+            "format": "int64", 
+            "readOnly": true,
+            "type": "string"
+        }, 
+        "dtlsPort": {
+            "description": "DTLS/SCTP Listen Port number of this Peer Node. Omitting this property indicates the Peer Node does not listen for DTLS/SCTP Connections from the DSR. Typical value is 5658. Diameter Peer Nodes only.", 
+            "maximum": 65535, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "fqdn": {
+            "description": "Fully Qualified Domain Name of this Peer Node. fqdn is a case-insensitive string consisting of a list of labels separated by dots, where a label may contain letters, digits, dashes ('-') and underscore ('_'). A label must start with a letter, digit or underscore and must end with a letter or digit. Underscores may be used only as the first character. A label must be at most 63 characters long and a FQDN must be at most 255 characters long.", 
+            "maxLength": 255, 
+            "pattern": "^(?!\\-)(?:[a-zA-Z0-9\\-\\_]{0,63}[a-zA-Z0-9]\\.){1,64}(?!0-9+)[a-zA-Z0-9]{1,64}$", 
+            "type": "string"
+        }, 
+        "ip": {
+            "description": "The IP address list of this Peer Node. Between zero and 128 (inclusive) IP addresses can be defined for a Peer Node. Each value provided must be a valid IPv4 or IPv6 address.", 
+            "items": {
+                "type": "string"
+            }, 
+            "maxItems": 128, 
+            "minItems": 0,
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "array"
+        }, 
+        "isDynamic": {
+            "description": "If true, means the Peer Node was created dynamically as a result of dynamic peer discovery. isDynamic is read-only. Diameter Peer Nodes only.", 
+            "readOnly": true,
+            "type": "boolean"
+        }, 
+        "maxAltRouteAttempts": {
+            "description": "The maximum number of times that a Request can be rerouted to this Peer Node before the next eligible Peer Node is selected.", 
+            "maximum": 4, 
+            "minimum": 1, 
+            "type": "integer"
+        }, 
+        "minConnCapacity": {
+            "description": "The minimum number of available Connections (/diameter/connections) to the Peer Node in order for it to be Available. Otherwise, if the number of available Connections to the Peer Node is less than minConnCapacity, the Peer Node is considered Degraded. Similarly, if no Connections are available to the Peer Node, it is considered Unavailable.", 
+            "maximum": 64, 
+            "minimum": 1, 
+            "type": "integer"
+        }, 
+        "msgPriorityCfgSetName": {
+            "description": "The Message Priority Configuration Set (/diameter/messagepriorityconfigurationsets) assigned to a Peer Node supplies rules governing prioritization of request messages sent by the Peer Node to the DSR.  Applicable when msgPrioritySetting is UserConfigured. Diameter Peer Nodes only.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "msgPrioritySetting": {
+            "description": "When receiving a request message and the receiving Connection's (/diameter/connections) msgPrioritySetting (Message Priority Setting) is set to None, the Message Priority Setting determines how priority is assigned to the Request. When set to RequestMessage, the message priority assigned to a request received from the Peer Node is read from the message itself. This option should only be used when the Peer Node is an Oracle Communications DSR. When set to None, the Default Message Priority Configuration Set (/diameter/messagepriorityconfigurationsets) is used. When set to UserConfigured, the Message Priority Configuration Set assigned to this Peer Node is used to determine the priority of request messages received from the Peer Node. Diameter Peer Nodes only.", 
+            "enum": [
+                "None", 
+                "RequestMessage", 
+                "UserConfigured"
+            ], 
+            "type": "string"
+        }, 
+        "name": {
+            "description": "Name for the Peer Node, which must be unique within the DSR site. A name is required, and cannot be changed after the Peer Node is initially configured. Valid names are strings between one and 32 characters, inclusive. Valid characters are alphanumeric and underscore. The name must contain at least one alpha and must not start with a digit.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "peerNodeGroupName": {
+            "description": "Name of the Peer Node Group (/diameter/peernodegroups) to which this Peer Node is assigned.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "peerRouteTableName": {
+            "description": "Name of the Peer Route Table (/diameter/peerroutetables) associated with this Peer Node.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "pendingAnswerTimerName": {
+            "description": "Name of the Pending Answer Timer (/diameter/pendinganswertimers) associated with this Peer Node.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "realm": {
+            "description": "Realm of this Peer Node. Realm is a case-insensitive string consisting of a list of labels separated by dots, where a label may contain letters, digits, dashes ('-') and underscore ('_'). A label must start with a letter, digit or underscore and must end with a letter or digit. Underscores may be used only as the first character. A label must be at most 63 characters long and a Realm must be at most 255 characters long.", 
+            "maxLength": 255, 
+            "pattern": "^(?!\\-)(?:[a-zA-Z0-9\\-\\_]{0,63}[a-zA-Z0-9]\\.){1,64}(?!0-9+)[a-zA-Z0-9]{1,64}$", 
+            "type": "string"
+        }, 
+        "replaceDestHost": {
+            "description": "If set to true, indicates the Destination-Host AVP of outgoing messages should be overwritten with this Peer Node's Fully Qualified Domain Name. Diameter Peer Nodes only.", 
+            "type": "boolean"
+        }, 
+        "replaceDestRealm": {
+            "description": "If set to true, indicates that the Destination-Realm AVP of outgoing messages should be overwritten with this Peer Node's Realm. Diameter Peer Nodes only.", 
+            "type": "boolean"
+        }, 
+        "routingOptionSetName": {
+            "description": "Name of the Routing Option Set (/diameter/routingoptionsets) associated with this Peer Node.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "sctpPort": {
+            "description": "SCTP Listen Port number of this Peer Node. Omitting this property indicates the Peer Node does not listen for SCTP Connections from the DSR. Typical value is 3868. Diameter Peer Nodes only.", 
+            "maximum": 65535, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "serverPort": {
+            "description": "UDP port(s) that serve(s) as the destination port(s) for messages from the DSR to this Peer Node, which represents a RADIUS Server. Between one and ten (inclusive) UDP server ports must be specified for a RADIUS Peer Node. RADIUS Peer Nodes only.", 
+            "items": {
+                "maximum": 49151, 
+                "minimum": 1024, 
+                "type": "integer"
+            }, 
+            "maxItems": 10,
+            "minItems": 0, 
+            "type": "array"
+        }, 
+        "tcpPort": {
+            "description": "TCP Listen Port number of this Peer Node. Omitting this property indicates the Peer Node does not listen for TCP Connections from the DSR. Typical value is 3868. Diameter Peer Nodes only.", 
+            "maximum": 65535, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "tlsPort": {
+            "description": "TLS/TCP Listen Port number of this Peer Node. Omitting this property indicates the Peer Node does not listen for TLS/TCP Connections from the DSR. Typical value is 5658. Diameter Peer Nodes only.", 
+            "maximum": 65535, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "topologyHidingEnabled": {
+            "description": "If true, indicates Topology Hiding is applicable to this Peer Node. Diameter Peer Nodes only.", 
+            "type": "boolean"
+        }, 
+        "transactionCfgSetName": {
+            "description": "Name of the Transaction Configuration Set (/diameter/transactionconfigurationsets) associated with this Peer Node.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }
+    }, 
+    "required": [
+        "aaaProtocol", 
+        "fqdn", 
+        "maxAltRouteAttempts", 
+        "minConnCapacity", 
+        "name", 
+        "realm"
+    ], 
+    "type": "object"
+}

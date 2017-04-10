@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><configuration name="Simple IP Server Conf">
+  <define entity="transport"
+    name="trans-1"
+    file="lib_spit.so"
+    create_function="create_cipio_instance"
+    delete_function="delete_cipio_instance"
+    init-args="type=sctp;decode-buf-len=65535;encode-buf-len=65535;syn-rto-ms=200">
+  </define>
+
+  <define entity="channel"
+    name="channel-1"
+    protocol="diameter-v1"
+    transport="trans-1"
+    open-args="mode=server;source=10.240.172.19:3869;buffer=100000;nagle=on" reconnect="yes">
+  </define>
+  <!--define entity="channel"
+    name="channel-1"
+    protocol="diameter-v1"
+    transport="trans-1"
+    open-args="mode=server;source=[2606:b400:605:b80f:210:e0ff:fe57:b47e]:8897,[fd0d:deba:d97c:f7d:210:e0ff:fe57:b47f]:8897;buffer=100000;nagle=on" reconnect="yes">
+  </define-->
+
+  <define entity="traffic-param" name="call-rate" value="0"></define>
+  <define entity="traffic-param" name="display-period" value="1"></define>
+  <define entity="traffic-param" name="log-stat-period" value="1"></define>
+  <define entity="traffic-param" name="log-stat-file" value="server-stat.csv"></define>
+  <define entity="traffic-param" name="call-timeout-ms" value="20000"></define>
+<define entity="traffic-param" name="files-no-timestamp" value="true"></define>
+  <define entity="traffic-param" name="display-scenario-stat" value="true">  </define>
+  <define entity="traffic-param" name="display-protocol-stat" value="true">  </define>
+  <define entity="traffic-param" name="log-protocol-stat-period" value="5">  </define>
+  <define entity="traffic-param" name="log-protocol-stat-name" value="all">  </define>
+  <define entity="traffic-param" name="log-protocol-stat-file" value="server-protocol-stat.csv"></define>
+  <define entity="traffic-param" name="max-send" value="200000"></define>
+  <define entity="traffic-param" name="max-receive" value="200000"></define>
+  <define entity="traffic-param" name="max-simultaneous-calls" value="20000"></define>
+  <define entity="traffic-param" name="select-timeout-ms" value="150"></define>
+</configuration>

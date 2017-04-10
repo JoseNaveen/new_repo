@@ -1,0 +1,81 @@
+DRMP1:
+  CONNECTIONTEST: [IcRateAvg, IcRatePeak]
+  MPTEST: [MpIcP7Y,MpIcP7G]
+#Only DRMP Config is supported right now. Do not edit NGNPS values
+  DSRCONFIG:
+    SYSTEMOPTIONS:
+      16PAdminState: Enabled
+      NgnPsAdminState: Disabled
+      AnswerPriorityMode: Request
+    APPLICATIONPRIORITYOPTIONS:
+      AppName: '3GPP Cx'
+      appId: '16777216'
+      DrmpAnswerAdmin: Enabled
+      Ngn3gppAdmin: Disabled
+      NgnDrmpAdmin: Disabled
+      DrmpRequestAdmin: Enabled
+
+CAPACITYCONFIGSETYELLOW:
+  convergenceTime: 2000
+  ingressMpsMajorAlarmThreshold: 80
+  ingressMpsMinorAlarmThreshold: 50
+  maxIngressMps: 1000
+  name: CapcCfgSetYellow
+  reservedIngressMpsAbatementTime: 5000
+  reservedIngressMps: 0
+
+CAPACITYCONFIGSETGREEN:
+  convergenceTime: 2000
+  ingressMpsMajorAlarmThreshold: 80
+  ingressMpsMinorAlarmThreshold: 50
+  maxIngressMps: 1000
+  name: CapcCfgSetGreen
+  reservedIngressMpsAbatementTime: 5000
+  reservedIngressMps: 10
+
+CLIENTPEERNODE:
+  aaaProtocol: Diameter
+  fqdn: client.oracle.com
+  maxAltRouteAttempts: 1
+  minConnCapacity: 1
+  name: ClientPeer1
+  realm: oracle.com
+  tcpPort: 3868
+  sctpPort: 3868
+  ip: [20.20.20.5,30.30.30.5]
+SERVERPEERNODE:
+  aaaProtocol: Diameter
+  fqdn: server.oracle.com
+  maxAltRouteAttempts: 1
+  minConnCapacity: 1
+  name: ServerPeer1
+  realm: oracle.com
+  tcpPort: 3869
+  sctpPort: 3869
+  ip: [20.20.20.5,30.30.30.5]
+
+CLIENTCONNECTION:
+  aaaProtocol: Diameter
+  capacityCfgSetName: Default
+  connCfgSetName: Default
+  connectionMode: LocalMpResponder
+  localNodeName: JunoLN1
+  name: ClientConnection
+  peerIdentification: Ip
+  peerNodeName: PeerName
+  localIp: 20.20.20.2
+  peerIp: 20.20.20.5
+  transportProtocol: Tcp
+
+SERVERCONNECTION:
+  aaaProtocol: Diameter
+  capacityCfgSetName: Default
+  connCfgSetName: Default
+  connectionMode: LocalMpInitiator
+  localNodeName: JunoLN1
+  name: ServerConnection
+  peerIdentification: Ip
+  peerNodeName: PeerName
+  localIp: 20.20.20.2
+  peerIp: 20.20.20.5
+  transportProtocol: Tcp

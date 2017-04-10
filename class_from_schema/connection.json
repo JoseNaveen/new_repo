@@ -1,0 +1,220 @@
+{
+    "title":"Example Schema",
+    "id": "http://dsr.cgbu.oracle.com/schemas/diameter/connection/connection.json",
+    "properties": {
+        "aaaProtocol": {
+            "description": "The AAA protocol for this Connection, which defines the Connection as either Diameter or Radius. This value is required for all Connections, and cannot be changed after the Connection is initially configured.", 
+            "enum": [
+                "Diameter", 
+                "Radius"
+            ], 
+            "type": "string"
+        }, 
+        "capacityCfgSetName": {
+            "description": "The Capacity Configuration Set (/diameter/capacityconfigurationsets) defines reserved and maximum ingress message processing rates and alarm thresholds for this connection. This value is required for all Connections.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "cexCfgSetName": {
+            "description": "The CEX Configuration Set (/diameter/capabilitiesexchangeconfigurationsets) assigned to a Connection supplies capabilities exchange parameters used during connection establishment. Diameter Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^$|^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "configurationLevel": {
+            "description": "The configuration level of the database when this instance is inserted or updated. configurationLevel is read-only.", 
+            "format": "int64", 
+            "readOnly": true,
+            "type": "string"
+        }, 
+        "connCfgSetName": {
+            "description": "The Connection Configuration Set (/diameter/connectionconfigurationsets) assigned to a Connection supplies default values for a variety of transport connection parameters. This value is required for all Connections.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "connectionMode": {
+            "description": "Defines the connection initiation behavior of this Connection. LocalMpInitiator, LocalMpResponder, and FullySpecified apply only to Diameter Connections, while RadiusServer and RadiusClient only apply to RADIUS Connections. LocalMpInitiator means the Local Node (/diameter/localnodes) initiates a connection attempt to the Peer Node (/diameter/peernodes). LocalMpResponder means the Local Node does not initiate a connection attempt to the Peer Node, but only responds to a connection attempt initiated by the Peer Node. FullySpecified means the Local Node initiates a connection attempt, as well as responding to connection attempts initiated by the Peer Node. RadiusServer means the Local Node receives incoming RADIUS requests from a Peer Node configured as a RADIUS client. RadiusClient means the Local Node sends RADIUS requests to a Peer Node configured as a RADIUS server. This value is required for all Connections.", 
+            "enum": [
+                "FullySpecified", 
+                "LocalMpInitiator", 
+                "LocalMpResponder", 
+                "RadiusServer", 
+                "RadiusClient"
+            ], 
+            "type": "string"
+        }, 
+        "ipfeInitiatorDampIp": {
+            "description": "If this Connection is an IPFE Connection and can be an initiator, the IPFE Initiator DA-MP is the one DA-MP that initiates the Connection to the Peer Node. This property must therefore be an IP address configured to the DA-MP that initiates the Connection, and the DA-MP must belong to the Target Set whose address(es) are configured as the local IP address(es) for this Connection. Diameter Connections only.", 
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "string"
+        }, 
+        "isDynamic": {
+            "description": "If true, means the Connection was created dynamically as a result of dynamic peer discovery. isDynamic is read-only. Diameter Connections only.", 
+            "readOnly": true,
+            "type": "boolean"
+        }, 
+        "localInitiatorPort": {
+            "description": "The source port from which the DSR sends a connection initiation request to the Peer Node (/diameter/peernodes). Diameter Connections only.", 
+            "maximum": 49151, 
+            "minimum": 1024, 
+            "type": "integer"
+        }, 
+        "localIp": {
+            "description": "The IP address to be used as the primary Local Node (/diameter/localnodes) address for this Connection. This IP address must be one of the IP addresses configured for the Local Node assigned to this Connection. This value is required for all Connections.", 
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "string"
+        }, 
+        "localNodeName": {
+            "description": "Name of the Local Node (/diameter/localnodes) associated with this Connection. This value is required for all Connections.", 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "msgAuthCfgSetName": {
+            "description": "Name of the Message Authenticator Configuration Set (/diameter/messageauthenticatorconfigurationsets) associated with this Connection. RADIUS Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "msgConvCfgSetName": {
+            "description": "Name of the Message Conversion Configuration Set (/diameter/messageconversionconfigurationsets) associated with this Connection.  RADIUS Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "msgPriorityCfgSetName": {
+            "description": "The Message Priority Configuration Set (/diameter/messagepriorityconfigurationsets) assigned to a Connection supplies rules governing prioritization of request messages sent by the Peer Node to the DSR.  Applicable when this Connection's Message Priority Setting is UserConfigured. Diameter Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "msgPrioritySetting": {
+            "description": "When receiving a Request and this Connection's Message Priority Setting is set to None, then the Peer Node's (/diameter/peernodes) Message Priority Setting determines how priority is assigned to a Request. When set to RequestMessage, the message priority assigned to a request received from the Peer Node is read from the message itself. This option should only be used when the Peer Node is an Oracle Communications DSR. When set to UserConfigured, the Message Priority Configuration Set assigned to this Connection is used to determine the priority of request messages received from the Peer Node. Diameter Connections only.", 
+            "enum": [
+                "None", 
+                "RequestMessage", 
+                "UserConfigured"
+            ], 
+            "type": "string"
+        }, 
+        "msgThrottlingCfgSetName": {
+            "description": "Name of the Message Throttling Configuration Set (/diameter/messagethrottlingconfigurationsets) associated with this Connection.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "name": {
+            "description": "Name for the Connection, which must be unique within the DSR site. Valid names are strings between one and 32 characters, inclusive. Valid characters are alphanumeric and underscore. The name must contain at least one alpha and must not start with a digit. This value is required for all Connections.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "peerIdentification": {
+            "description": "Specifies how the Local Node (/diameter/localnodes) derives the Peer Node's (/diameter/peernodes) IP address(es) when initiating a Connection to the Peer Node, and whether the Local Node validates the Peer Node's IP address(es) when responding to a Connection from the Peer Node. When None is specified, DSR does not validate the Peer Node's IP address(s) when responding to a Connection from the Peer Node. When IP is specified, DSR uses the Peer Node's IP address(es) configured for this Connection when initiating a Connection to the Peer Node, and validates the Peer Node's IP address(es) when responding to a Connection from the Peer Node. When TransportFqdn is specified, DSR uses the DNS-resolved Transport FQDN address configured for this Connection when initiating a connection to the Peer Node, and does not validate the Peer Node's IP address(es) when responding to a Connection from the Peer Node. When PeerFqdn is specified, DSR uses the DNS-resolved FQDN address configured for the Peer Node associated with this Connection when initiating a Connection to the Peer Node, and does not validate the Peer Node's IP address(es) when responding to a Connection from the Peer Node. This value is required for all Connections.",
+            "enum": [
+                "Ip", 
+                "TransportFqdn", 
+                "PeerFqdn", 
+                "None"
+            ], 
+            "type": "string"
+        }, 
+        "peerIp": {
+            "description": "The IP address to be used as the primary Peer Node (/diameter/peernodes) address for this Connection. Required for RADIUS Connections. For Diameter Connections, required whenever peerIdentification is not IP. priPeerIp must be one of the IP addresses configured for the Peer Node assigned to this Connection.", 
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "string"
+        }, 
+        "peerNodeName": {
+            "description": "Name of the Peer Node (/diameter/peernodes) associated with this Connection. This value is required for all Connections.", 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "remoteBusyTimeout": {
+            "description": "Defines the time period (in seconds) that a Connection is considered BUSY from the last time a DIAMETER_TOO_BUSY response was received. Diameter Connections only.", 
+            "maximum": 60, 
+            "minimum": 3, 
+            "type": "integer"
+        }, 
+        "remoteBusyUsage": {
+            "description": "Defines which Request messages can be forwarded on this Connection after receiving a DIAMETER_TOO_BUSY response from the Connection's Peer Node (/diameter/peernodes). When set to false, the Connection is not considered to be BUSY after receiving a DIAMETER_TOO_BUSY response. All Request messages continue to be forwarded to (or rerouted to) this Connection. When set to true, the Connection is considered to be BUSY after receiving a DIAMETER_TOO_BUSY response. No Request messages can be forwarded to (or rerouted to) this Connection until the Remote Busy Abatement Timeout expires. Diameter Connections only.", 
+            "type": "boolean"
+        }, 
+        "altLocalIp": {
+            "description": "The IP address to be used as the alternate Local Node (/diameter/localnodes) address for this Connection. This address is only used for SCTP multi-homing, and must be different from the address chosen for the primary local IP address. Diameter Connections only.", 
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "string"
+        }, 
+        "altPeerIp": {
+            "description": "The IP address to be used as the alternate Peer Node (/diameter/peernodes) address for this Connection. This address is only used for SCTP multi-homing, and must be different from the address chosen for the primary peer IP address. Diameter Connections only.", 
+            "pattern": "^(((1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]).){3}(1?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))$|^([0-9A-Fa-f:])+$", 
+            "type": "string"
+        }, 
+        "sharedSecretCfgSetName": {
+            "description": "Name of the Shared Secret Configuration Set (/diameter/sharedsecretconfigurationsets) associated with this Connection. RADIUS Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "statusServerCfgSetName": {
+            "description": "Name of the Ingress Status-Server Configuration Set (/diameter/statusserverconfigurationsets) associated with this Connection. RADIUS Connections only.", 
+            "maxLength": 32, 
+            "pattern": "^(([A-Za-z][A-Za-z0-9_]*)|(_[A-Za-z0-9_]*[A-Za-z][A-Za-z0-9_]*))$", 
+            "type": "string"
+        }, 
+        "suppressConnAttempt": {
+            "description": "If true, connection attempts to the standby Peer Node (/diameter/peernodes) are suppressed once the Peer Node's Operational Status is Available. Diameter Connections only. ", 
+            "type": "boolean"
+        }, 
+        "suppressConnUnavailableAlarm": {
+            "description": "If true, a connection unavailable alarm is not raised for this Connection whenever the Connection becomes Unavailable. Diameter Connections only. ", 
+            "type": "boolean"
+        }, 
+        "testMode": {
+            "description": "If true, indicates the Connection is in test mode. Diameter Connections only.", 
+            "type": "boolean"
+        }, 
+        "transportCongTimeout": {
+            "description": "Defines the time period (in seconds) spent by the Connection in abating each congestion level during abatement. Typical value is 5 seconds. Diameter Connections only.", 
+            "maximum": 60, 
+            "minimum": 3, 
+            "type": "integer"
+        }, 
+        "transportFqdn": {
+            "description": "Fully Qualified Domain Name for this Connection. FQDN is a case-insensitive string consisting of a list of labels separated by dots, where a label may contain letters, digits, dashes ('-') and underscore ('_'). A label must start with a letter, digit or underscore and must end with a letter or digit. Underscores may be used only as the first character. A label must be at most 63 characters long and a FQDN must be at most 255 characters long. Diameter Connections only.", 
+            "maxLength": 255, 
+            "pattern": "^(?!\\-)(?:[a-zA-Z0-9\\-\\_]{0,63}[a-zA-Z0-9]\\.){1,64}(?!0-9+)[a-zA-Z0-9]{1,64}$", 
+            "type": "string"
+        }, 
+        "transportProtocol": {
+            "description": "The transport protocol used by this Connection. The selected protocol must be supported by both the Local Node (/diameter/localnodes) and the Peer Node (/diameter/peernodes) assigned to this Connection. The transport protocols Tcp, Tls, Sctp, and Dtls may only be associated with Diameter Connections, while Udp may only be associated with RADIUS Connections. Required for all Connections. Note: The MP hosting this Connection should not have IPSEC enabled if this Connection is configured as Tls or Dtls, since enabling both IPSEC and TLS/TCP or DTLS/SCTP would have a significant, negative impact on Connection performance. This value is required for all Connections.", 
+            "enum": [
+                "Sctp", 
+                "Dtls", 
+                "Tcp", 
+                "Tls", 
+                "Udp"
+            ], 
+            "type": "string"
+        }, 
+        "udpPort": {
+            "description": "For RADIUS Server Connections, this is the UDP port on which the DSR expects to receive incoming RADIUS requests for this Connection. For RADIUS Client Connections, this is the UDP port at the destination Peer Node (/diameter/peernodes), which receives the RADIUS request sent by the DSR. RADIUS Connections only.", 
+            "maximum": 49151, 
+            "minimum": 1024, 
+            "type": "integer"
+        }
+    }, 
+    "required": [
+        "aaaProtocol", 
+        "capacityCfgSetName", 
+        "connCfgSetName", 
+        "connectionMode", 
+        "localNodeName", 
+        "name", 
+        "peerIdentification", 
+        "peerNodeName", 
+        "localIp", 
+        "transportProtocol"
+    ], 
+    "type": "object"
+}
